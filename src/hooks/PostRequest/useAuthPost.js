@@ -28,7 +28,7 @@ function useAuthPost() {
             return await axios.post(endpoint, formdata, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: userAuth.authToken,
+                    Authorization: userAuth.authtoken,
                 }
             })
                 .then(({ data }) => {
@@ -40,13 +40,13 @@ function useAuthPost() {
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    // console.log(error);
                     showNotify(error?.response?.data, "danger");
                 }).finally(() => {
                     setIsLoading(false);
                 });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             showNotify(error?.response?.data, "danger");
         }
         finally {

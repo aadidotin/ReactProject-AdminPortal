@@ -19,9 +19,11 @@ function AddStudent() {
     std_state: "",
     std_city: "",
     std_pincode: "",
+    enroll_id: "",
     reg_date: "",
     course: "",
     course_fee: "",
+    branch: 1,
   });
 
   const { showNotify } = notify();
@@ -52,9 +54,11 @@ function AddStudent() {
       std_state,
       std_city,
       std_pincode,
+      enroll_id,
       reg_date,
       course,
       course_fee,
+      branch,
     } = studentData;
 
     if (std_name == "") {
@@ -79,15 +83,20 @@ function AddStudent() {
       showAlert("Please Choose Student's City", "warning");
     } else if (std_pincode == "") {
       showAlert("Please Enter Student's Pincode", "warning");
+    } else if (enroll_id == "") {
+      showAlert("Enrollment ID is empty", "warning");
     } else if (reg_date == "") {
       showAlert("Please Add Registration Date", "warning");
     } else if (course == "") {
       showAlert("Please Choose Course", "warning");
     } else if (course_fee == "") {
       showAlert("Please Enter Course Fees", "warning");
+    } else if (!branch || branch == "") {
+      showAlert("Please Choose Branch", "warning");
     } else {
       console.log(studentData);
     }
+    // console.log(studentData);
 
     try {
       const response = await authApiCall("/student/add-student", studentData);
@@ -116,6 +125,10 @@ function AddStudent() {
     // } catch (error) {
     //   console.log("outer --- ", error);
     // }
+  };
+
+  const handleEnrollGenerate = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -374,12 +387,37 @@ function AddStudent() {
 
               <div className="card-body">
                 <div className="row">
-                  <div className="col-md-6 col-lg-4">
+                  <div className="col-md-6 col-lg-3">
+                    <div className="form-group">
+                      <label>Enrollment ID</label>
+                      <div className="input-group">
+                        <button
+                          className="input-group-text btn-outline-secondary btn-sm btn"
+                          onClick={handleEnrollGenerate}
+                        >
+                          Get Id
+                        </button>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={studentData.enroll_id}
+                          onChange={(e) =>
+                            setStudentData({
+                              ...studentData,
+                              enroll_id: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6 col-lg-3">
                     <div className="form-group">
                       <label>Registration Date</label>
                       <input
                         type="date"
-                        className="form-control form-control"
+                        className="form-control"
                         value={studentData.reg_date}
                         onChange={(e) =>
                           setStudentData({
@@ -391,7 +429,7 @@ function AddStudent() {
                     </div>
                   </div>
 
-                  <div className="col-md-6 col-lg-4">
+                  <div className="col-md-6 col-lg-3">
                     <div className="form-group">
                       <label>Choose Course</label>
                       <select
@@ -413,7 +451,7 @@ function AddStudent() {
                     </div>
                   </div>
 
-                  <div className="col-md-6 col-lg-4">
+                  <div className="col-md-6 col-lg-3">
                     <div className="form-group">
                       <label>Course Fees</label>
                       <div className="input-group">
@@ -431,6 +469,81 @@ function AddStudent() {
                         />
                       </div>
                     </div>
+                  </div>
+
+                  <div className="col-md-12 ">
+                    <label className="col-form-label p-0 pt-3">
+                      Branch Location
+                    </label>
+                    <br />
+
+                    <label className="col-form-label me-3 pb-0">
+                      <input
+                        className="form-check-input"
+                        name="addmission_loc"
+                        value="1"
+                        type="radio"
+                        checked={studentData.branch == 1 && true}
+                        onChange={(e) =>
+                          setStudentData({
+                            ...studentData,
+                            branch: e.target.value,
+                          })
+                        }
+                      />
+                      Branch 1
+                    </label>
+
+                    <label className="col-form-label me-3 pb-0">
+                      <input
+                        className="form-check-input"
+                        name="addmission_loc"
+                        value={2}
+                        type="radio"
+                        checked={studentData.branch == 2 && true}
+                        onChange={(e) =>
+                          setStudentData({
+                            ...studentData,
+                            branch: e.target.value,
+                          })
+                        }
+                      />
+                      Branch 2
+                    </label>
+
+                    <label className="col-form-label me-3 pb-0">
+                      <input
+                        className="form-check-input"
+                        name="addmission_loc"
+                        value={3}
+                        type="radio"
+                        checked={studentData.branch == 3 && true}
+                        onChange={(e) =>
+                          setStudentData({
+                            ...studentData,
+                            branch: e.target.value,
+                          })
+                        }
+                      />
+                      Branch 3
+                    </label>
+
+                    <label className="col-form-label me-3 pb-0">
+                      <input
+                        className="form-check-input"
+                        name="addmission_loc"
+                        value={4}
+                        type="radio"
+                        checked={studentData.branch == 4 && true}
+                        onChange={(e) =>
+                          setStudentData({
+                            ...studentData,
+                            branch: e.target.value,
+                          })
+                        }
+                      />
+                      Branch 4
+                    </label>
                   </div>
                 </div>
               </div>
