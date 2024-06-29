@@ -6,16 +6,19 @@ import img2 from "@images/lg2.png";
 import "../../assets/css/auth.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CheckAuth from "@hook/Auth/CheckAuth";
 
 function Auth() {
   const [signUp, setSignUp] = useState(false);
 
-  const userAuth = useSelector((state) => state.auth.data);
+  const userAuth = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
+  const { validToken } = CheckAuth();
+
   useEffect(() => {
-    if (userAuth) navigate("/portal/");
-  }, [userAuth]);
+    if (userAuth.data && validToken) navigate("/portal/");
+  }, [userAuth, validToken]);
 
   const toggle_signup = () => setSignUp(!signUp);
 

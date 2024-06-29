@@ -1,15 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeUser } from "../../store/userStore/authSlice";
+import useAlert from "@hook/Alert/alert";
+import useUnAuthPost from "@hook/PostRequest/useUnAuthPost";
 
 function Header() {
   const userAuth = useSelector((state) => state.auth.data);
-  
+
+  const { showAlert } = useAlert();
   const dispatch = useDispatch();
 
-  const handleLogout = (e) => {
+  const { unAuthApiCall } = useUnAuthPost();
+
+  const handleLogout = async (e) => {
     e.preventDefault();
-    dispatch(removeUser());
+
+    try {
+      const response = await unAuthApiCall("/auth/logout", {});
+      if (response.success) {
+        dispatch(removeUser());
+      }
+    } catch (error) {
+      showAlert(error.message, "danger");
+    }
   };
 
   return (
